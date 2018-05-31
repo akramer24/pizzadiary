@@ -1,19 +1,36 @@
-import { createStackNavigator } from 'react-navigation';
-import { LandingPage, Home } from '../components';
+import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import { LandingPage, PizzeriaMap } from '../components';
 
-const RootNavigator = createStackNavigator(
+const Navigator = createStackNavigator(
   {
     LandingPage: {
       screen: LandingPage,
       navigationOptions: {
         title: 'Pizza Diary'
       }
-    },
-    Home: {
-      screen: Home
     }
   }, {
     initialRouteName: 'LandingPage'
+  }
+)
+
+const HomeTabs = createBottomTabNavigator(
+  {
+    PizzeriaMap: {
+      screen: PizzeriaMap,
+      navigationOptions: {
+        title: 'Map'
+      }
+    }
+  }, {
+    initialRouteName: 'PizzeriaMap'
+  }
+)
+
+const RootNavigator = createSwitchNavigator(
+  {
+    LandingPage: Navigator,
+    Home: HomeTabs
   }
 )
 
