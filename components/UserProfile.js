@@ -4,10 +4,10 @@ import { StyleSheet, View, Text } from 'react-native';
 export default class Home extends React.Component {
   render() {
     const { navigation } = this.props;
-    const team = navigation.getParam('email');
+    const email = navigation.getParam('email');
     return (
       <View style={styles.home}>
-        <Text>This is {team} page</Text>
+        <Text>This is {email} page</Text>
       </View>
     )
   }

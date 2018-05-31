@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
 import db from '../db';
 import * as firebase from 'firebase';
+import { Permissions, Location } from 'expo';
 
 
 export default class LandingPage extends React.Component {
@@ -11,19 +12,22 @@ export default class LandingPage extends React.Component {
     this.state = {
       email: '',
       password: '',
-      error: ''
+      error: '',
+      location: {}
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const { navigation } = this.props;
+    await this._getLocationAsync();
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         db.collection('users').doc(user.email).get()
-        .then(doc => {
-          const {email} = doc.data()
-          navigation.navigate('Home', {email})
-        })
+          .then(doc => {
+            const { email } = doc.data();
+            const { latitude, longitude } = this.state.location.coords;
+            navigation.navigate('PizzeriaMap', { email, latitude, longitude })
+          })
       }
     });
   }
@@ -31,6 +35,18 @@ export default class LandingPage extends React.Component {
   componentWillUnmount() {
     this.setState({ email: '', password: '' })
   }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ location });
+  };
 
   handleInputChange(inputField, value) {
     this.setState({ [inputField]: value });
@@ -52,7 +68,7 @@ export default class LandingPage extends React.Component {
                 pizzeriasToVist: []
               });
               this.props.navigation.navigate('Home', { email });
-              this.setState({ email: '', password: ''});
+              this.setState({ email: '', password: '' });
             })
         }
       })
@@ -64,22 +80,22 @@ export default class LandingPage extends React.Component {
 
   signIn(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(data => {
-      if (data.user) {
-        db.collection('users')
-        .doc(email)
-        .get()
-        .then(doc => {
-          this.props.navigation.navigate('Home', { email: doc.data().email })
-          this.setState({ email: '', password: '', error: '' });
-          })
-      }
+      .then(data => {
+        if (data.user) {
+          db.collection('users')
+            .doc(email)
+            .get()
+            .then(doc => {
+              this.props.navigation.navigate('Home', { email: doc.data().email })
+              this.setState({ email: '', password: '', error: '' });
+            })
+        }
 
-    })
-    .catch(err => {
-      this.setState({ error: err.message });
-      console.log(err.message);
-    })
+      })
+      .catch(err => {
+        this.setState({ error: err.message });
+        console.log(err.message);
+      })
   }
 
   render() {

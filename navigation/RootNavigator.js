@@ -1,5 +1,5 @@
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
-import { LandingPage, PizzeriaMap } from '../components';
+import { LandingPage, PizzeriaMap, UserProfile } from '../components';
 
 const Navigator = createStackNavigator(
   {
@@ -21,9 +21,24 @@ const HomeTabs = createBottomTabNavigator(
       navigationOptions: {
         title: 'Map'
       }
+    },
+    UserProfile: {
+      screen: UserProfile,
+      navigationOptions: {
+        title: 'Profile'
+      }
     }
   }, {
-    initialRouteName: 'PizzeriaMap'
+    initialRouteName: 'PizzeriaMap',
+    tabBarOptions: {
+      activeTintColor: 'black',
+      labelStyle: {
+        fontSize: 18,
+      },
+      style: {
+        backgroundColor: '#e4e4e4',
+      },
+    }
   }
 )
 
