@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, StatusBar } from 'react-native';
 import { MapView } from 'expo';
 import db from '../db';
 
@@ -18,12 +18,12 @@ export default class Home extends React.Component {
 
   getPizzerias() {
     const { navigation } = this.props;
-    const latitude = navigation.getParam('latitude');
-    const longitude = navigation.getParam('longitude');
-    const latMin = latitude - 0.1;
-    const latMax = latitude + 0.1;
-    const longMin = longitude - 0.1;
-    const longMax = longitude + 0.1;
+    const userLatitude = navigation.getParam('latitude');
+    const userLongitude = navigation.getParam('longitude');
+    const latMin = userLatitude - 0.1;
+    const latMax = userLatitude + 0.1;
+    const longMin = userLongitude - 0.1;
+    const longMax = userLongitude + 0.1;
     db.collection('pizzerias')
       .where('latitude', '>', latMin)
       .where('latitude', '<', latMax)
@@ -57,7 +57,7 @@ export default class Home extends React.Component {
       >
         {
           pizzerias && pizzerias.map(pizzeria => {
-            const {name, latitude, longitude} = pizzeria;
+            const { name, latitude, longitude } = pizzeria;
             return (
               <MapView.Marker
                 key={name}

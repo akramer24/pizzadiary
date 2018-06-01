@@ -33,7 +33,7 @@ export default class LandingPage extends React.Component {
   }
 
   componentWillUnmount() {
-    this.setState({ email: '', password: '' })
+    this.setState({ email: '', password: '', location: {}, error: '' })
   }
 
   _getLocationAsync = async () => {
@@ -68,7 +68,6 @@ export default class LandingPage extends React.Component {
                 pizzeriasToVist: []
               });
               this.props.navigation.navigate('Home', { email });
-              this.setState({ email: '', password: '' });
             })
         }
       })
@@ -78,7 +77,8 @@ export default class LandingPage extends React.Component {
       })
   }
 
-  signIn(email, password) {
+  async signIn(email, password) {
+    await this._getLocationAsync();
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(data => {
         if (data.user) {
@@ -86,9 +86,8 @@ export default class LandingPage extends React.Component {
             .doc(email)
             .get()
             .then(doc => {
-              const { latitude, longitude } = this.state;
-              this.props.navigation.navigate('Home', { email: doc.data().email, latitude, longitude })
-              this.setState({ email: '', password: '', error: '' });
+              const { latitude, longitude } = this.state.location;
+              this.props.navigation.navigate('UserProfile', { email: doc.data().email, latitude, longitude })
             })
         }
 
