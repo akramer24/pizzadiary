@@ -20,15 +20,20 @@ export default class Home extends React.Component {
     const { navigation } = this.props;
     const latitude = navigation.getParam('latitude');
     const longitude = navigation.getParam('longitude');
-    const latMin = +latitude - 0.1;
-    const latMax = +latitude + 0.1;
+    const latMin = latitude - 0.1;
+    const latMax = latitude + 0.1;
+    const longMin = longitude - 0.1;
+    const longMax = longitude + 0.1;
     db.collection('pizzerias')
       .where('latitude', '>', latMin)
       .where('latitude', '<', latMax)
       .get()
       .then(pizzerias => {
         const places = [];
-        pizzerias.forEach(pizzeria => places.push(pizzeria.data()))
+        pizzerias.forEach(pizzeria => {
+          pizzeria = pizzeria.data();
+          if (pizzeria.longitude > longMin && pizzeria.longitude < longMax) places.push(pizzeria)
+        })
         this.setState({ pizzerias: places })
       })
       .catch(console.log)
