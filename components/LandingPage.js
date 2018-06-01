@@ -86,7 +86,8 @@ export default class LandingPage extends React.Component {
             .doc(email)
             .get()
             .then(doc => {
-              this.props.navigation.navigate('Home', { email: doc.data().email })
+              const { latitude, longitude } = this.state;
+              this.props.navigation.navigate('Home', { email: doc.data().email, latitude, longitude })
               this.setState({ email: '', password: '', error: '' });
             })
         }
