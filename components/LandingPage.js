@@ -65,9 +65,10 @@ export default class LandingPage extends React.Component {
               db.collection('users').doc(email).set({
                 email,
                 pizzeriasVisited: [],
-                pizzeriasToVist: []
+                pizzeriasToVisit: []
               });
-              this.props.navigation.navigate('Home', { email });
+              const { latitude, longitude } = this.state.location.coords;
+              this.props.navigation.navigate('PizzeriaMap', { email, latitude, longitude });
             })
         }
       })

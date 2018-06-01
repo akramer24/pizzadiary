@@ -1,5 +1,6 @@
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
-import { LandingPage, PizzeriaMap, UserProfile } from '../components';
+import { LandingPage, PizzeriaMap } from '../components';
+import { UserProfile } from '../components/UserProfile';
 
 const Navigator = createStackNavigator(
   {
