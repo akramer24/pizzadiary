@@ -20,10 +20,10 @@ export default class Home extends React.Component {
     const { navigation } = this.props;
     const userLatitude = navigation.getParam('latitude');
     const userLongitude = navigation.getParam('longitude');
-    const latMin = userLatitude - 0.1;
-    const latMax = userLatitude + 0.1;
-    const longMin = userLongitude - 0.1;
-    const longMax = userLongitude + 0.1;
+    const latMin = userLatitude - 0.25;
+    const latMax = userLatitude + 0.25;
+    const longMin = userLongitude - 0.25;
+    const longMax = userLongitude + 0.25;
     db.collection('pizzerias')
       .where('latitude', '>', latMin)
       .where('latitude', '<', latMax)

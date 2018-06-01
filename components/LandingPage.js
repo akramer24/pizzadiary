@@ -86,11 +86,10 @@ export default class LandingPage extends React.Component {
             .doc(email)
             .get()
             .then(doc => {
-              const { latitude, longitude } = this.state.location;
+              const { latitude, longitude } = this.state.location.coords;
               this.props.navigation.navigate('UserProfile', { email: doc.data().email, latitude, longitude })
             })
         }
-
       })
       .catch(err => {
         this.setState({ error: err.message });

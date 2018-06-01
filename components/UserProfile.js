@@ -4,10 +4,9 @@ import * as firebase from 'firebase';
 
 export default class Home extends React.Component {
 
-  logout() {
+  logout(navigation) {
     firebase.auth().signOut().then(function() {
-      console.log('signed out')
-      this.props.navigation.navigate('LandingPage')
+      navigation.navigate('LandingPage')
     }).catch(function(error) {
       console.log(error)
     });
@@ -19,7 +18,7 @@ export default class Home extends React.Component {
     return (
       <View style={styles.home}>
         <Text>This is {email} page</Text>
-        <TouchableOpacity onPress={() => this.logout()}>
+        <TouchableOpacity onPress={() => this.logout(navigation)}>
           <Text>Logout</Text>
         </TouchableOpacity>
       </View>
