@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
 import db from '../../db';
+import { UserStats } from './index';
 
 export default class UserProfile extends React.Component {
 
@@ -18,7 +19,7 @@ export default class UserProfile extends React.Component {
       db.collection('users')
         .doc(user.email)
         .get()
-        .then(foundUser => this.setState({user: foundUser.data()}))
+        .then(foundUser => this.setState({ user: foundUser.data() }))
         .catch(console.log);
     }
   }
@@ -33,10 +34,16 @@ export default class UserProfile extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { user } = this.state;
+    const { pizzeriasVisited, pizzeriasToVisit, slicesEaten, username } = this.state.user;
+
     return (
       <View style={styles.home}>
-        {user.email && <Text>This is {this.state.user.email} page</Text>}
+        {pizzeriasVisited &&
+          <UserStats
+            pizzeriasVisited={pizzeriasVisited.length}
+            pizzeriasToVisit={pizzeriasToVisit.length}
+            slicesEaten={slicesEaten}
+          />}
         <TouchableOpacity onPress={() => this.logout(navigation)}>
           <Text>Logout</Text>
         </TouchableOpacity>
@@ -49,6 +56,7 @@ const styles = StyleSheet.create({
   home: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 30
   }
 })
