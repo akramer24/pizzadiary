@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
 import db from '../../db';
-import { UserStats } from './index';
+import { UserStats, UserHeader } from './index';
 
 export default class UserProfile extends React.Component {
 
@@ -34,10 +34,15 @@ export default class UserProfile extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { pizzeriasVisited, pizzeriasToVisit, slicesEaten, username } = this.state.user;
+    const { pizzeriasVisited, pizzeriasToVisit, slicesEaten, username, email } = this.state.user;
 
     return (
       <View style={styles.home}>
+        {pizzeriasVisited &&
+        <UserHeader
+          username={username}
+          email={email}
+        />}
         {pizzeriasVisited &&
           <UserStats
             pizzeriasVisited={pizzeriasVisited.length}
