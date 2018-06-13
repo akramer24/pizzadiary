@@ -111,6 +111,7 @@ export default class LandingPage extends React.Component {
             placeholderTextColor="white"
             value={email}
             onChangeText={(email) => this.handleInputChange('email', email)}
+            autoCapitalize="none"
           />
           <TextInput
             style={styles.input}

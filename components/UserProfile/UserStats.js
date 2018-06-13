@@ -6,10 +6,6 @@ const UserStats = props => {
 
   return (
     <View style={styles.statsContainer}>
-      <View style={styles.pizzeriaCounters}>
-        <Text style={styles.pizzeriaCounterText}>Visited: {pizzeriasVisited}</Text>
-        <Text style={styles.pizzeriaCounterText}>On the list: {pizzeriasToVisit}</Text>
-      </View>
       <Text style={styles.slicesEaten}>Slices eaten: {slicesEaten}</Text>
     </View>
   )
@@ -17,19 +13,15 @@ const UserStats = props => {
 
 const styles = StyleSheet.create({
   statsContainer: {
-    flex: 1,
     alignItems: 'center'
-  },
-  pizzeriaCounters: {
-    flexDirection: 'row'
-  },
-  pizzeriaCounterText: {
-    fontSize: 20,
-    marginLeft: 5,
-    marginRight: 5
   },
   slicesEaten: {
     fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+    textShadowColor: 'black',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 1
   }
 })
 
