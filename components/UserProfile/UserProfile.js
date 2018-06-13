@@ -51,45 +51,45 @@ export default class UserProfile extends React.Component {
         <View style={styles.home}>
           <View style={styles.navbar}>
           </View>
-          {pizzeriasVisited &&
-            <UserHeader
-              username={username}
-              email={email}
-            />}
-          {pizzeriasVisited &&
-            <UserStats
-              pizzeriasVisited={pizzeriasVisited.length}
-              pizzeriasToVisit={pizzeriasToVisit.length}
-              slicesEaten={slicesEaten}
-            />}
           {
             pizzeriasVisited &&
-            <View style={styles.pizzeriaTabContainer}>
-              <TouchableOpacity
-                style={displayVisited ? styles.activeTab : styles.inactiveTab}
-                onPress={() => this.toggleTabs(true)}
-              >
-                <Text style={styles.header}>Pizzerias Visited ({pizzeriasVisited.length})</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={!displayVisited ? styles.activeTab : styles.inactiveTab}
-                onPress={() => this.toggleTabs(false)}
-              >
-                <Text style={styles.header}>Pizzerias to Visit ({pizzeriasToVisit.length})</Text>
+            <View>
+              <UserHeader
+                username={username}
+                email={email}
+              />
+              <UserStats
+                pizzeriasVisited={pizzeriasVisited.length}
+                pizzeriasToVisit={pizzeriasToVisit.length}
+                slicesEaten={slicesEaten}
+              />
+              <View style={styles.pizzeriaTabContainer}>
+                <TouchableOpacity
+                  style={displayVisited ? styles.activeTab : styles.inactiveTab}
+                  onPress={() => this.toggleTabs(true)}
+                >
+                  <Text style={styles.header}>Pizzerias Visited ({pizzeriasVisited.length})</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={!displayVisited ? styles.activeTab : styles.inactiveTab}
+                  onPress={() => this.toggleTabs(false)}
+                >
+                  <Text style={styles.header}>Pizzerias to Visit ({pizzeriasToVisit.length})</Text>
+                </TouchableOpacity>
+              </View>
+              {
+                displayVisited &&
+                <Pizzerias pizzerias={pizzeriasVisited} />
+              }
+              {
+                !displayVisited &&
+                <Pizzerias pizzerias={pizzeriasToVisit} />
+              }
+              <TouchableOpacity onPress={() => this.logout(navigation)}>
+                <Text style={styles.logout}>Logout</Text>
               </TouchableOpacity>
             </View>
           }
-          {
-            pizzeriasVisited && displayVisited &&
-            <Pizzerias pizzerias={pizzeriasVisited} />
-          }
-          {
-            pizzeriasVisited && !displayVisited &&
-            <Pizzerias pizzerias={pizzeriasToVisit} />
-          }
-          <TouchableOpacity onPress={() => this.logout(navigation)}>
-            <Text style={styles.logout}>Logout</Text>
-          </TouchableOpacity>
         </View>
       </ImageBackground>
     )
